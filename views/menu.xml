@@ -1,0 +1,25 @@
+<odoo>
+	<data>
+
+		<record id="action_dropping_list" model="ir.actions.act_window">
+			<field name="name">Dropping Dana</field>
+			<field name="res_model">drop.dana</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create"> Click to create a Import </p>
+				<p>klik tombol create untuk bikin Dropping Dana baru</p>
+			</field>
+		</record>
+
+		<menuitem id="dropping_0"
+			name="Dropping Dana"
+			sequence="20"/>
+
+		<menuitem id="dropping_1"
+			name="Dropping Dana"
+			parent="dropping_0"
+			action="action_dropping_list"
+			sequence="20"/>
+
+	</data>
+</odoo>
