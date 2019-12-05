@@ -29,9 +29,9 @@
 			<field name="arch" type="xml">
 				<form string="Dropping Dana">
 					<header>
-						<button string="Request Approval" type="object" class="oe_highlight" name="action_confirm" states="draft" />
-						<button string="Approve 1" type="object" class="oe_highlight" name="action_done" states="confirmed" />
-						<button string="Approve 2" type="object" class="oe_highlight" name="action_draft" states="done" />
+						<button string="Request Approval" type="object" class="oe_highlight" name="action_open" states="draft" />
+						<button string="Approve 1" type="object" class="oe_highlight" name="action_confirm" states="open" />
+						<button string="Approve 2" type="object" class="oe_highlight" name="action_done" states="confirmed" />
 						<field name="state" widget="statusbar" />
 					</header>
 					<sheet>

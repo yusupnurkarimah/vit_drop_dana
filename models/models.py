@@ -2,7 +2,7 @@
 from odoo import models, fields, api
 import time
 
-SESSION_STATES =[('draft','Draft'),('confirmed','Confirmed'),
+SESSION_STATES =[('draft','Draft'),('open','Open'),('confirmed','Confirmed'),
 ('done','Done')]
 
 class dana(models.Model):
@@ -29,6 +29,11 @@ class dana(models.Model):
 						readonly=True,
 						default=SESSION_STATES[0][0], help="")
 	
+	#confirm_uid = fields.Many2one(comodel_name="res.users", string="Confirm User")
+	#confirm_date = fields.Date(string="Confirm Date", default=lambda self:time.strftime("%Y-%m-%d"))
+	#done_uid = fields.Many2one(comodel_name="res.users", string="Done User")
+	#done_date = fields.Date(string="Done Date", default=lambda self:time.strftime("%Y-%m-%d"))
+	
 	@api.model
 	def create(self, vals):
 		if not vals.get('name', False) or vals['name'] == 'New':
@@ -38,24 +43,32 @@ class dana(models.Model):
 	@api.multi
 	def action_draft(self):
 		self.state = SESSION_STATES[0][0]
-
+	
 	@api.multi
-	def action_confirm(self):
+	def action_open(self):
 		self.state = SESSION_STATES[1][0]
 
 	@api.multi
-	def action_done(self):
+	def action_confirm(self):
 		self.state = SESSION_STATES[2][0]
+		#self.confirm_uid = self.env.user.id
+		#self.confirm_date = time.strftime("%Y-%m-%d")
+
+	@api.multi
+	def action_done(self):
+		self.state = SESSION_STATES[3][0]
 		self.create_journal_entries()
+		#self.done_uid = self.env.user.id
+		#self.done_date = time.strftime("%Y-%m-%d")
 
 	@api.multi
 	def create_journal_entries(self):
-		object_open = self.env['drop.dana']
+		#object_open = self.env['drop.dana']
 		object_account = self.env['account.account']
 		
-		records = object_open.search([('state', '=', 'done')])
-		for record in records:
-			account_id = object_account.search([('code','=',9999)])
+		#records = object_open.search([('state', '=', 'done')])
+		#for record in records:
+		account_id = object_account.search([('code','=','9999')])
 		
 		object_account_move = self.env['account.move']
 		line_ids = [
@@ -65,7 +78,7 @@ class dana(models.Model):
 				'credit' : 0,
 			}),
 			(0, 0, {
-				'account_id' : self.bank_asal.id,
+				'account_id' : self.bank_asal.default_credit_account_id.id,
 				'debit' : 0,
 				'credit' : self.estimasi,
 			})]
@@ -84,7 +97,7 @@ class dana(models.Model):
 				'credit' : self.estimasi,
 			}),
 			(0, 0, {
-				'account_id' : self.bank_tujuan.id,
+				'account_id' : self.bank_tujuan.default_debit_account_id.id,
 				'debit' : self.estimasi,
 				'credit' : 0,
 			})]
