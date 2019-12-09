@@ -53,6 +53,10 @@ class dana(models.Model):
 		self.state = SESSION_STATES[2][0]
 		#self.confirm_uid = self.env.user.id
 		#self.confirm_date = time.strftime("%Y-%m-%d")
+	
+	@api.multi
+	def action_reject(self):
+		self.state = SESSION_STATES[0][0]
 
 	@api.multi
 	def action_done(self):
@@ -68,7 +72,7 @@ class dana(models.Model):
 		
 		#records = object_open.search([('state', '=', 'done')])
 		#for record in records:
-		account_id = object_account.search([('code','=','9999')])
+		account_id = object_account.search([('code','=','99999')])
 		
 		object_account_move = self.env['account.move']
 		line_ids = [

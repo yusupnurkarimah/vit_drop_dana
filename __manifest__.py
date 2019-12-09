@@ -29,6 +29,7 @@
         'views/templates.xml',
         'views/menu.xml',
         'data/squence.xml',
+        'data/account.account.csv',
     ],
     # only loaded in demonstration mode
     'demo': [
