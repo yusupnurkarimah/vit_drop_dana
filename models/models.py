@@ -7,6 +7,7 @@ SESSION_STATES =[('draft','Draft'),('open','Open'),('confirmed','Confirmed'),
 
 class dana(models.Model):
 	_name = 'drop.dana'
+	_inherit = 'mail.thread'
 
 	name = fields.Char(string="No Form", required=True, default='New', size=100)
 	kebutuhan = fields.Selection(
@@ -28,6 +29,12 @@ class dana(models.Model):
 	state = fields.Selection(selection=SESSION_STATES, string="State", required=False,
 						readonly=True,
 						default=SESSION_STATES[0][0], help="")
+	message_follower_ids = fields.One2many(
+		'mail.followers', 'res_id', string='Followers',
+		domain=lambda self: [('res_model', '=', self._name)])
+	message_ids = fields.One2many(
+		'mail.message', 'res_id', string='Messages',
+		domain=lambda self: [('model', '=', self._name)], auto_join=True)
 	
 	#confirm_uid = fields.Many2one(comodel_name="res.users", string="Confirm User")
 	#confirm_date = fields.Date(string="Confirm Date", default=lambda self:time.strftime("%Y-%m-%d"))
