@@ -26,7 +26,7 @@ class dana(models.Model):
 	bank_tujuan = fields.Many2one(comodel_name="account.journal", string="Bank Tujuan")
 	waktu = fields.Date(string="Waktu Penggunaan", required=False,
 						default=lambda self:time.strftime("%Y-%m-%d"))
-	state = fields.Selection(selection=SESSION_STATES, string="State", required=False,
+	state = fields.Selection(selection=SESSION_STATES, string="Status", required=False,
 						readonly=True,
 						default=SESSION_STATES[0][0], help="")
 	message_follower_ids = fields.One2many(

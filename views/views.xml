@@ -17,6 +17,7 @@
 					<field name="bank_asal" domain="[('type', '=', 'bank')]"/>
 					<field name="bank_tujuan" domain="[('type', '=', 'bank')]"/>
 					<field name="waktu"/>
+					<field name="state"/>
 				</tree>
 			</field>
 		</record>
