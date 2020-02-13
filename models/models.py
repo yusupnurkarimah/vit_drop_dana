@@ -29,12 +29,12 @@ class dana(models.Model):
 	state = fields.Selection(selection=SESSION_STATES, string="Status", required=False,
 						readonly=True,
 						default=SESSION_STATES[0][0], help="")
-	message_follower_ids = fields.One2many(
-		'mail.followers', 'res_id', string='Followers',
-		domain=lambda self: [('res_model', '=', self._name)])
-	message_ids = fields.One2many(
-		'mail.message', 'res_id', string='Messages',
-		domain=lambda self: [('model', '=', self._name)], auto_join=True)
+	move_id_asal = fields.Many2one('account.move', string='Journal Entry Bank Asal',
+		readonly=True, index=True, ondelete='restrict', copy=False,
+		help="Link to the automatically generated Journal Items.")
+	move_id_tujuan = fields.Many2one('account.move', string='Journal Entry Bank Tujuan',
+		readonly=True, index=True, ondelete='restrict', copy=False,
+		help="Link to the automatically generated Journal Items.")
 	
 	#confirm_uid = fields.Many2one(comodel_name="res.users", string="Confirm User")
 	#confirm_date = fields.Date(string="Confirm Date", default=lambda self:time.strftime("%Y-%m-%d"))
@@ -100,6 +100,11 @@ class dana(models.Model):
 			'line_ids' : line_ids
 		}
 		records = object_account_move.create(data)
+		object_account_move.browse(records.id).action_post()
+		vals = {
+				'move_id_asal': records.id,
+			}
+		self.write(vals)
 
 		line_ids = [
 			(0, 0, {
@@ -119,3 +124,8 @@ class dana(models.Model):
 			'line_ids' : line_ids
 		}
 		records = object_account_move.create(data)
+		object_account_move.browse(records.id).action_post()
+		vals = {
+				'move_id_tujuan': records.id,
+			}
+		self.write(vals)

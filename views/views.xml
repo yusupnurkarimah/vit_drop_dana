@@ -51,6 +51,14 @@
 							<field name="bank_tujuan" domain="[('type', '=', 'bank')]"/>
 							<field name="waktu"/>
 						</group>
+						<notebook>
+							<page string="Other Info">
+								<group>
+									<field name="move_id_asal" groups="account.group_account_user" attrs="{'invisible': [('move_id_asal', '=', False)]}"/>
+									<field name="move_id_tujuan" groups="account.group_account_user" attrs="{'invisible': [('move_id_tujuan', '=', False)]}"/>
+								</group>
+							</page>
+						</notebook>
 					</sheet>
 					<div class="oe_chatter">
 						<field name="message_follower_ids" widget="mail_followers"/>
@@ -60,46 +68,5 @@
 			</field>
 		</record>
 
-		<!-- actions opening views on models -->
-		<!--
-		<record model="ir.actions.act_window" id="vit_drop_dana.action_window">
-			<field name="name">vit_drop_dana window</field>
-			<field name="res_model">vit_drop_dana.vit_drop_dana</field>
-			<field name="view_mode">tree,form</field>
-		</record>
-		-->
-
-		<!-- server action to the one above -->
-		<!--
-		<record model="ir.actions.server" id="vit_drop_dana.action_server">
-			<field name="name">vit_drop_dana server</field>
-			<field name="model_id" ref="model_vit_drop_dana_vit_drop_dana"/>
-			<field name="state">code</field>
-			<field name="code">
-				action = {
-					"type": "ir.actions.act_window",
-					"view_mode": "tree,form",
-					"res_model": self._name,
-				}
-			</field>
-		</record>
-		-->
-
-		<!-- Top menu item -->
-		<!--
-		<menuitem name="vit_drop_dana" id="vit_drop_dana.menu_root"/>
-		-->
-		<!-- menu categories -->
-		<!--
-		<menuitem name="Menu 1" id="vit_drop_dana.menu_1" parent="vit_drop_dana.menu_root"/>
-		<menuitem name="Menu 2" id="vit_drop_dana.menu_2" parent="vit_drop_dana.menu_root"/>
-		-->
-		<!-- actions -->
-		<!--
-		<menuitem name="List" id="vit_drop_dana.menu_1_list" parent="vit_drop_dana.menu_1"
-							action="vit_drop_dana.action_window"/>
-		<menuitem name="Server to list" id="vit_drop_dana" parent="vit_drop_dana.menu_2"
-							action="vit_drop_dana.action_server"/>
-		-->
 	</data>
 </odoo>
